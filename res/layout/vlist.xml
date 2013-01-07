@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/SSID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView01"
+        android:textSize="20dip" />
+    
+    <LinearLayout
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/BSSID"
+            android:layout_width="204dp"
+            android:layout_height="wrap_content"
+            android:text="TextView02" />
+
+        <TextView
+            android:id="@+id/RSI"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:text="TextView03" />
+
+    </LinearLayout>
+
+</LinearLayout>
