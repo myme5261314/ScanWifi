@@ -138,7 +138,7 @@ public class ShowRSSI extends Activity{
 				if(arg1 == EditorInfo.IME_ACTION_UNSPECIFIED){
 					String apPosition = et.getText().toString();
 					try {
-						recordFile.write(strSSID + "(" + strBSSID + ")" + ":" + apPosition + "\r\n");
+						recordFile.write(strSSID + "(" + strBSSID + ")" + ":" + apPosition+"\r\n");
 						Log.v(tag, String.valueOf(arg1));
 						et.setVisibility(View.INVISIBLE);
 						imm.hideSoftInputFromWindow(et.getWindowToken(), 0);

@@ -33,10 +33,10 @@ public class StartScan {
 		List<ScanResult> result = scan();
 		Iterator<ScanResult> iscan = result.iterator();
 		while (iscan.hasNext()) {
-			ScanResult next = iscan.next();
+			ScanResult nextResult = iscan.next();
 			
-			if(bssid.compareTo(next.BSSID) == 0)
-				return next.level;
+			if(bssid.compareTo(nextResult.BSSID) == 0)
+				return nextResult.level;
 		}
 		return -200;
 	}
@@ -48,5 +48,21 @@ public class StartScan {
 		Collections.sort(m_result, sort);
 		
 		return m_result;
+	}
+	
+	public List<ScanResult> getScanReslutWithSSID(String ssid){
+		
+		List<ScanResult> result = new ArrayList<ScanResult>();
+		scan();
+		
+		Iterator<ScanResult> iscan = m_result.iterator();
+		while(iscan.hasNext()){
+			ScanResult nextResult = iscan.next();
+			if(nextResult.SSID.compareTo(ssid) == 0){
+				result.add(nextResult);
+			}
+		}
+		
+		return result;
 	}
 }
