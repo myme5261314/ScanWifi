@@ -1,11 +1,16 @@
 package com.example.scanwifi;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import org.xmlpull.v1.XmlSerializer;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,6 +23,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.util.Xml;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,6 +44,7 @@ public class ShowRSSI extends Activity{
 	public WriteFile recordFile;
 	
 	Thread mythread = new Thread(new myThread());
+	XmlSerializer serializer = Xml.newSerializer();
 	int speed = 2000;
 	String strBSSID;
 	String strSSID;
@@ -136,16 +143,8 @@ public class ShowRSSI extends Activity{
 			public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
 				// TODO Auto-generated method stub
 				if(arg1 == EditorInfo.IME_ACTION_UNSPECIFIED){
-					String apPosition = et.getText().toString();
-					try {
-						recordFile.write(strSSID + "(" + strBSSID + ")" + ":" + apPosition+"\r\n");
-						Log.v(tag, String.valueOf(arg1));
-						et.setVisibility(View.INVISIBLE);
-						imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					String positionStr = et.getText().toString();
+					recordSth(positionStr);
 				}
 				return false;
 			}
@@ -187,7 +186,7 @@ public class ShowRSSI extends Activity{
 		//==============================
 		Intent intent = getIntent();
 		msg = intent.getIntExtra("msg", 1);
-		if(msg == 2){
+		if(msg == 2){//查看单个AP的RSSI
 			strSSID = intent.getStringExtra("SSID");
 			strBSSID = intent.getStringExtra("BSSID");
 			nameText.setText(strSSID+"\r\n"+strBSSID);
@@ -195,12 +194,19 @@ public class ShowRSSI extends Activity{
 			writeFile = new WriteFile(Environment.getExternalStorageDirectory().getPath(), strSSID + ".txt");
 		}
 		else{
+			recordAP.setVisibility(View.INVISIBLE);
+			et.setVisibility(View.VISIBLE);
+			et.setText(""); 
+			et.clearComposingText();
+			
 			nameText.setText("ALL AP");
 			writeFile = new WriteFile(Environment.getExternalStorageDirectory().getPath(),  "ALLAP.txt");
+			
+			
 		}
 		
 		try {
-			writeFile.writeTime();
+			writeFile.writeTime(Calendar.getInstance());
 			writeFile.write("\r\nSpeed:"+String.valueOf(speed)+"\r\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -285,7 +291,7 @@ public class ShowRSSI extends Activity{
         }     
     }
 	
-	public void scroll2Bottom(final ScrollView scroll, final View inner) { 
+	public static void scroll2Bottom(final ScrollView scroll, final View inner) { 
 		
         Handler handler = new Handler();  
         handler.post(new Runnable() {  
@@ -307,5 +313,21 @@ public class ShowRSSI extends Activity{
             }  
         });  
     }
+	
+	public void recordSth(String recordStr){
+		if(msg == 2){
+			try {
+				recordFile.write(strSSID + "(" + strBSSID + ")" + ":" + recordStr+"\r\n");
+				et.setVisibility(View.INVISIBLE);
+				imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if(msg == 1){
+			//记录用户输入的位置，保存成XML文件
+		}
+	}
 }
 

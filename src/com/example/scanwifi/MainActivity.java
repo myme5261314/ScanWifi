@@ -105,8 +105,9 @@ public class MainActivity extends Activity {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
 
-				intent.setClass(MainActivity.this, ShowRSSI.class);
-				intent.putExtra("msg", 1);
+//				intent.setClass(MainActivity.this, ShowRSSI.class);
+//				intent.putExtra("msg", 1);
+				intent.setClass(MainActivity.this, ShowAllRSSI.class);
 				
 		         
 	         	MainActivity.this.startActivity(intent);

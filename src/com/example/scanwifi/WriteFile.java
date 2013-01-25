@@ -49,14 +49,20 @@ public class WriteFile {
 		}	
 	}
 	
-	public void writeTime() throws IOException{
-		Calendar c = Calendar.getInstance(); 
-		String strTime = c.get(Calendar.YEAR)+"-"+
-							c.get(Calendar.MONTH)+"-"+
-							c.get(Calendar.DAY_OF_MONTH)+"  "+
-							c.get(Calendar.HOUR_OF_DAY)+":"+
-							c.get(Calendar.MINUTE)+":"+
-							c.get(Calendar.SECOND);
+	public void writeTime(Calendar c) throws IOException{
+		String strTime = tranTimeToString(c);
 		write(strTime);
+	}
+	
+	public static String tranTimeToString(Calendar c){
+		
+		String strTime = c.get(Calendar.YEAR)+"-"+
+				c.get(Calendar.MONTH)+"-"+
+				c.get(Calendar.DAY_OF_MONTH)+"  "+
+				c.get(Calendar.HOUR_OF_DAY)+":"+
+				c.get(Calendar.MINUTE)+":"+
+				c.get(Calendar.SECOND);
+		
+		return strTime;
 	}
 }

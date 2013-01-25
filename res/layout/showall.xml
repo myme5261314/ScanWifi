@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="14dp"
+        android:text="频率" />
+
+    <EditText
+        android:id="@+id/frequency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView1"
+        android:layout_alignBottom="@+id/textView1"
+        android:layout_marginLeft="17dp"
+        android:layout_toRightOf="@+id/textView1"
+        android:ems="4" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/frequency"
+        android:layout_alignBottom="@+id/frequency"
+        android:layout_marginLeft="40dp"
+        android:layout_toRightOf="@+id/frequency"
+        android:text="持续时间" />
+
+    <EditText
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView2"
+        android:layout_alignBottom="@+id/textView2"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@+id/textView2"
+        android:ems="4" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/frequency"
+        android:layout_marginTop="22dp"
+        android:text="位置" />
+
+    <EditText
+        android:id="@+id/position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView3"
+        android:layout_alignBottom="@+id/textView3"
+        android:layout_alignLeft="@+id/frequency"
+        android:ems="10" />
+
+    <Button
+        android:id="@+id/gotomain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/position"
+        android:layout_marginTop="25dp"
+        android:text="goto" />
+
+    <Button
+        android:id="@+id/start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/gotomain"
+        android:layout_alignBottom="@+id/gotomain"
+        android:layout_toRightOf="@+id/frequency"
+        android:text="start" />
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/gotomain"
+        android:layout_marginTop="21dp" >
+
+        <TextView
+            android:id="@+id/rssText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="" />
+        
+    </ScrollView>
+
+</RelativeLayout>

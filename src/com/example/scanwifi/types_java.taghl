@@ -1,0 +1,4 @@
+syn keyword CTagsField listItemAdapter isStop m_result et speed m_wifi startScan tv recordFile imm writeFile scrollView mythread handler showAll scanObject sort run strSSID seekBar stop msg listItem list m_pathName strBSSID tag recordAP gotoMain m_fileName
+syn keyword CTagsMethod onCreateOptionsMenu compare getOnRSSI run sortScanResultWithRSS StartScan scan scroll2Bottom write isAvaiable WriteFile writeTime addListToAdapter getScanReslutWithSSID onCreate
+syn keyword CTagsClass SortList StartScan WriteFile MainActivity myThread ShowRSSI
+
