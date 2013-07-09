@@ -20,7 +20,8 @@
         android:layout_alignBottom="@+id/textView1"
         android:layout_marginLeft="17dp"
         android:layout_toRightOf="@+id/textView1"
-        android:ems="4" >
+        android:ems="4"
+        android:text="@+string/FrequencyDefault" >
 
         <requestFocus />
     </EditText>
@@ -39,11 +40,12 @@
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView2"
-        android:layout_alignBottom="@+id/textView2"
+        android:layout_alignBottom="@+id/frequency"
+        android:layout_alignTop="@+id/frequency"
         android:layout_marginLeft="15dp"
         android:layout_toRightOf="@+id/textView2"
-        android:ems="4" />
+        android:ems="4"
+        android:text="@+string/ScanTimeDefault" />
 
     <TextView
         android:id="@+id/textView3"
@@ -61,7 +63,9 @@
         android:layout_alignBaseline="@+id/textView3"
         android:layout_alignBottom="@+id/textView3"
         android:layout_alignLeft="@+id/frequency"
-        android:ems="10" />
+        android:layout_toLeftOf="@+id/textView2"
+        android:ems="10"
+        android:text="@+string/XYDefault" />
 
     <Button
         android:id="@+id/gotomain"
@@ -98,5 +102,23 @@
             android:text="" />
         
     </ScrollView>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/gotomain"
+        android:layout_alignLeft="@+id/textView2"
+        android:text="场景   " />
+
+    <EditText
+        android:id="@+id/scenery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/position"
+        android:layout_alignBottom="@+id/position"
+        android:layout_alignLeft="@+id/time"
+        android:ems="4"
+        android:text="@+string/SceneryDefault" />
 
 </RelativeLayout>

@@ -33,90 +33,89 @@ public class MainActivity extends Activity {
 	public ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();
 	public StartScan scanObject;
 	public SimpleAdapter listItemAdapter;
-	
-	private String 	tag = "main";
-	
-	Button 		startScan;
-	Button 		showAll;
-	Button 		sort;
-	ListView 	list;
-	TextView 	tv;
-	
+
+	private String tag = "main";
+
+	Button startScan;
+	Button showAll;
+	Button sort;
+	ListView list;
+	TextView tv;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		
-		startScan = (Button)findViewById(R.id.button1);
-		showAll = (Button)findViewById(R.id.button2);
-		sort = (Button)findViewById(R.id.button3);
-		
-		list = (ListView)findViewById(R.id.listView1);
-		
+
+		startScan = (Button) findViewById(R.id.button1);
+		showAll = (Button) findViewById(R.id.button2);
+		sort = (Button) findViewById(R.id.button3);
+
+		list = (ListView) findViewById(R.id.listView1);
+
 		String connectivity_context = Context.WIFI_SERVICE;
-		WifiManager wifi = (WifiManager)getSystemService(connectivity_context);
+		WifiManager wifi = (WifiManager) getSystemService(connectivity_context);
 		scanObject = new StartScan(wifi);
-		
-		//生成适配器的Item和动态数组对应的元素   
-		listItemAdapter = new SimpleAdapter(this,listItem,//数据源    
-			R.layout.vlist,//ListItem的XML实现   
-			//动态数组与ImageItem对应的子项           
-			new String[] {"ItemSSID", "ItemBSSID", "ItemRSI"},    
-			//ImageItem的XML文件里面的一个ImageView,两个TextView ID   
-			new int[] {R.id.SSID,R.id.BSSID,R.id.RSI}   
-		);
-		
-		//添加并且显示   
+
+		// 生成适配器的Item和动态数组对应的元素
+		listItemAdapter = new SimpleAdapter(this, listItem,// 数据源
+				R.layout.vlist,// ListItem的XML实现
+				// 动态数组与ImageItem对应的子项
+				new String[] { "ItemSSID", "ItemBSSID", "ItemRSI" },
+				// ImageItem的XML文件里面的一个ImageView,两个TextView ID
+				new int[] { R.id.SSID, R.id.BSSID, R.id.RSI });
+
+		// 添加并且显示
 		list.setAdapter(listItemAdapter);
-		
-		startScan.setOnClickListener(new OnClickListener(){
+
+		startScan.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				Handler handler = new Handler();   
-                handler.post(run);
+				Handler handler = new Handler();
+				handler.post(run);
 			}
 		});
- 
-        //添加点击   
-        list.setOnItemClickListener(new OnItemClickListener() {   
+
+		// 添加点击
+		list.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
-				HashMap<String, Object> test = (HashMap<String, Object>) arg0.getItemAtPosition(arg2);
+				HashMap<String, Object> test = (HashMap<String, Object>) arg0
+						.getItemAtPosition(arg2);
 				Intent intent = new Intent();
 				intent.setClass(MainActivity.this, ShowRSSI.class);
 				intent.putExtra("msg", 2);
 				intent.putExtra("SSID", String.valueOf(test.get("ItemSSID")));
 				intent.putExtra("BSSID", String.valueOf(test.get("ItemBSSID")));
 
-	         	MainActivity.this.startActivity(intent);
-	         	MainActivity.this.finish();
-			}   
-        }); 
-        
-        showAll.setOnClickListener(new OnClickListener(){
+				MainActivity.this.startActivity(intent);
+				MainActivity.this.finish();
+			}
+		});
+
+		showAll.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
 
-//				intent.setClass(MainActivity.this, ShowRSSI.class);
-//				intent.putExtra("msg", 1);
+				// intent.setClass(MainActivity.this, ShowRSSI.class);
+				// intent.putExtra("msg", 1);
 				intent.setClass(MainActivity.this, ShowAllRSSI.class);
-				
-		         
-	         	MainActivity.this.startActivity(intent);
-	         	MainActivity.this.finish();
+
+				MainActivity.this.startActivity(intent);
+				MainActivity.this.finish();
 			}
-        	
-        });
-        
-        sort.setOnClickListener(new OnClickListener(){
+
+		});
+
+		sort.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
@@ -124,9 +123,9 @@ public class MainActivity extends Activity {
 				List<ScanResult> result = scanObject.sortScanResultWithRSS();
 				addListToAdapter(result);
 			}
-			
-        });
-    }   
+
+		});
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -134,34 +133,30 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
-	
-	Runnable run = new Runnable() {   
-		  
-	    @Override  
-	    public void run() {   
-	        // TODO Auto-generated method stub   
-	        List<ScanResult> result = scanObject.scan();
-	        addListToAdapter(result);
-	    }   
+
+	Runnable run = new Runnable() {
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			List<ScanResult> result = scanObject.scan();
+			addListToAdapter(result);
+		}
 	};
-	
-	void addListToAdapter(List<ScanResult> result){
-		//生成动态数组，加入数据   
-		listItem.clear();  
-		
+
+	void addListToAdapter(List<ScanResult> result) {
+		// 生成动态数组，加入数据
+		listItem.clear();
+
 		Iterator<ScanResult> iscan = result.iterator();
 		while (iscan.hasNext()) {
 			ScanResult next = iscan.next();
-			HashMap<String, Object> map = new HashMap<String, Object>();   
-			map.put("ItemSSID", next.SSID);//图像资源的ID   
-        	map.put("ItemBSSID", next.BSSID); 
-        	map.put("ItemRSI",next.level);
-        	listItem.add(map); 
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("ItemSSID", next.SSID);// 图像资源的ID
+			map.put("ItemBSSID", next.BSSID);
+			map.put("ItemRSI", next.level);
+			listItem.add(map);
 		}
 		listItemAdapter.notifyDataSetChanged();
 	}
 }
-
-
-
-

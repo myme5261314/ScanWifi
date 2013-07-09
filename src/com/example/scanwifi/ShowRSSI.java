@@ -80,7 +80,7 @@ public class ShowRSSI extends Activity{
 		
 		seekBar = (SeekBar)findViewById(R.id.seekBar1);
 	
-		et = (EditText)findViewById(R.id.editText1);
+		et = (EditText)findViewById(R.id.scenery);
 		et.setVisibility(View.INVISIBLE);//Òþ²Ø
 		stop.setOnClickListener(new OnClickListener(){
 
@@ -309,7 +309,7 @@ public class ShowRSSI extends Activity{
                     System.out.println("¶¨Î»...");  
                     offset = 0;  
                 }  
-                scroll.scrollTo(0, offset);  
+                scroll.scrollTo(0, offset);
             }  
         });  
     }
