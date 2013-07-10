@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.util.Calendar;
 
 import android.os.Environment;
-import android.text.format.Time;
-import android.util.Log;
 
 public class WriteFile {
 	public String m_pathName;
@@ -57,7 +55,7 @@ public class WriteFile {
 	public static String tranTimeToString(Calendar c){
 		
 		String strTime = c.get(Calendar.YEAR)+"-"+
-				c.get(Calendar.MONTH)+"-"+
+				(c.get(Calendar.MONTH)+1)+"-"+
 				c.get(Calendar.DAY_OF_MONTH)+"  "+
 				c.get(Calendar.HOUR_OF_DAY)+":"+
 				c.get(Calendar.MINUTE)+":"+

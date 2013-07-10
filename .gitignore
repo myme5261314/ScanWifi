@@ -1,1 +1,5 @@
 *.swp
+tags
+types_java.taghl
+*.swo
+bin
