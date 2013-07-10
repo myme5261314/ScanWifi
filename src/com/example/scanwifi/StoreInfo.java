@@ -55,7 +55,7 @@ public class StoreInfo {
 	public StoreInfo(int fren, long time, Calendar start, String position,
 			String scenery) throws IllegalArgumentException,
 			IllegalStateException {
-		Log.v(tag, "xml");
+//		Log.v(tag, "xml");
 		m_allResult = new ArrayList<List<ScanResult>>();
 		m_frequency = fren;
 		m_time = time;
@@ -78,7 +78,7 @@ public class StoreInfo {
 		// m_serializer.setOutput(m_os, "UTF-8");
 		// m_serializer.startDocument("UTF-8", true);
 
-		Log.v(tag, "xml");
+//		Log.v(tag, "xml");
 		m_bssid_ssid = new HashMap<String, String>();
 		m_bssid_rssi = new HashMap<String, List<String>>();
 
@@ -162,7 +162,7 @@ public class StoreInfo {
 
 		} catch (JSONException e) {
 			// TODO: handle exception
-			e.printStackTrace();
+			Log.e("StoreInfo#getJSONData()", e.getMessage(),e);
 		}
 		m_bssid_ssid.clear();
 		m_bssid_rssi.clear();
@@ -343,7 +343,7 @@ public class StoreInfo {
 		try {
 			JSONObject jsonObject = getJSONData();
 			if (jsonObject.getJSONArray("RSSILists").length() == 0) {
-				Log.e("getJSONData()", "jsonObject entity RSSILists empty!");
+				Log.e("StoreInfo#writeJSON()", "jsonObject entity RSSILists empty!");
 			}
 			// 这里只能用下划线作为分隔，如果用空格，会在构成文件名时使文件名有空格，会出各种问题。而且文件名中不能有冒号。
 			SimpleDateFormat sDateFormat = new SimpleDateFormat(
@@ -369,7 +369,7 @@ public class StoreInfo {
 			} else {
 				v_jsonFile.delete();
 			}
-			Log.v(tag, "xml");
+			Log.v(tag, "json file start writing.");
 			// FileOutputStream outstream = new FileOutputStream(v_jsonFile);
 			FileWriter ft = new FileWriter(v_jsonFile);
 			// v_os = new PrintStream(outstream);
@@ -409,7 +409,7 @@ public class StoreInfo {
 
 			outpath = v_jsonFile.getAbsolutePath();
 
-			System.out.print(outpath);
+			Log.v("writeJsonFileDone", outpath);
 
 			js.close();
 

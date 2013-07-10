@@ -5,27 +5,20 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.GridLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
@@ -34,7 +27,7 @@ public class MainActivity extends Activity {
 	public StartScan scanObject;
 	public SimpleAdapter listItemAdapter;
 
-	private String tag = "main";
+//	private String tag = "main";
 
 	Button startScan;
 	Button showAll;
@@ -85,6 +78,7 @@ public class MainActivity extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
+				@SuppressWarnings("unchecked")
 				HashMap<String, Object> test = (HashMap<String, Object>) arg0
 						.getItemAtPosition(arg2);
 				Intent intent = new Intent();

@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.util.Calendar;
 
 import android.os.Environment;
-import android.text.format.Time;
-import android.util.Log;
 
 public class WriteFile {
 	public String m_pathName;

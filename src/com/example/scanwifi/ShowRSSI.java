@@ -1,14 +1,11 @@
 package com.example.scanwifi;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.lang.ref.WeakReference;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 import org.xmlpull.v1.XmlSerializer;
 
@@ -21,7 +18,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.util.Xml;
 import android.view.KeyEvent;
@@ -33,8 +29,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 public class ShowRSSI extends Activity{
@@ -60,6 +56,8 @@ public class ShowRSSI extends Activity{
 	EditText et;
 	Boolean isStop = false;
 	InputMethodManager imm;
+	
+	private MyHandler handler = new MyHandler(this);
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -221,49 +219,60 @@ public class ShowRSSI extends Activity{
 		mythread.start();
 	}
 	
-	Handler handler = new Handler(){
+	static class MyHandler extends Handler{
+		private final WeakReference<ShowRSSI> mActivity;
+		public MyHandler(ShowRSSI activity) {
+			// TODO Auto-generated constructor stub
+			mActivity = new WeakReference<ShowRSSI>(activity);
+		}
 		public void handleMessage(Message msg){
+			ShowRSSI refActivity = null;
+			if (mActivity.get() != null) {
+				refActivity = mActivity.get();
+			}
             switch(msg.what){    
             case 1:
-            	List<ScanResult> result = scanObject.scan();
-	        	if(result.isEmpty()){
-	        		tv.append("没有检测到AP");
-	        	}
-	        	else{
-	        		Iterator<ScanResult> iscan = result.iterator();
-	        		while (iscan.hasNext()) {
-	        			ScanResult next = iscan.next();
-	        			tv.append(next.SSID + " "+ next.BSSID + " " + String.valueOf(next.level)+"\r\n");
-	        			try {
-							writeFile.write(next.SSID + " "+ next.BSSID + " " + String.valueOf(next.level)+"\r\n");
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-	        		}
-	        		
-	        		tv.append("\r\n");
-	        		tv.append("\r\n");
-	        		try {
-						writeFile.write("\r\n\r\n");
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-	        	}
-	        	scroll2Bottom(scrollView,tv);
+            	if (refActivity != null) {
+            		List<ScanResult> result = refActivity.scanObject.scan();
+    	        	if(result.isEmpty()){
+    	        		refActivity.tv.append("没有检测到AP");
+    	        	}
+    	        	else{
+    	        		Iterator<ScanResult> iscan = result.iterator();
+    	        		while (iscan.hasNext()) {
+    	        			ScanResult next = iscan.next();
+    	        			refActivity.tv.append(next.SSID + " "+ next.BSSID + " " + String.valueOf(next.level)+"\r\n");
+    	        			try {
+    	        				refActivity.writeFile.write(next.SSID + " "+ next.BSSID + " " + String.valueOf(next.level)+"\r\n");
+    						} catch (IOException e) {
+    							// TODO Auto-generated catch block
+    							e.printStackTrace();
+    						}
+    	        		}
+    	        		
+    	        		refActivity.tv.append("\r\n");
+    	        		refActivity.tv.append("\r\n");
+    	        		try {
+    	        			refActivity.writeFile.write("\r\n\r\n");
+    					} catch (IOException e) {
+    						// TODO Auto-generated catch block
+    						e.printStackTrace();
+    					}
+    	        	}
+    	        	scroll2Bottom(refActivity.scrollView,refActivity.tv);
+				}
 	        	break;
             	
             case 2: 
-            	int i = scanObject.getOnRSSI(strBSSID);
-            	tv.append(String.valueOf(i)+"\r\n");
+            	int i = refActivity.scanObject.getOnRSSI(refActivity.strBSSID);
+            	refActivity.tv.append(String.valueOf(i)+"\r\n");
             	try {
-					writeFile.write(String.valueOf(i)+"\r\n");
+            		refActivity.writeFile.write(String.valueOf(i)+"\r\n");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-            	scroll2Bottom(scrollView,tv);
+            	scroll2Bottom(refActivity.scrollView,refActivity.tv);
             	break;
             	
         	default:
@@ -306,7 +315,7 @@ public class ShowRSSI extends Activity{
                 int offset = inner.getMeasuredHeight() + 1
                         - scroll.getMeasuredHeight();  
                 if (offset < 0) {  
-                    System.out.println("定位...");  
+                    Log.v("ShowRSSI#scroll2Bottom()", "定位"); 
                     offset = 0;  
                 }  
                 scroll.scrollTo(0, offset);

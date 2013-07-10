@@ -2,6 +2,7 @@ package com.example.scanwifi;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.ref.WeakReference;
 import java.net.ConnectException;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -63,10 +64,12 @@ public class ShowAllRSSI extends Activity {
 	public List<ScanResult> onceResult;
 
 	public StartScan m_scanObject;
-	public StoreInfo m_storeInfo=null, m_preStoreInfo=null;
+	public StoreInfo m_storeInfo = null, m_preStoreInfo = null;
 	boolean threadFlag = false;
 
 	String tag = "all";
+
+	private MyHandler_All handler = new MyHandler_All(this);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -295,10 +298,11 @@ public class ShowAllRSSI extends Activity {
 				}
 
 				// 得到应答的字符串，这也是一个 JSON 格式保存的数据
-//				String retSrc = EntityUtils.toString(httpResponse.getEntity());
+				// String retSrc =
+				// EntityUtils.toString(httpResponse.getEntity());
 				// 生成 JSON 对象
 
-//				JSONObject result = new JSONObject(retSrc);
+				// JSONObject result = new JSONObject(retSrc);
 				// String token = result.get("hello").toString();
 				Log.v("success", "json data recieved");
 
@@ -342,7 +346,12 @@ public class ShowAllRSSI extends Activity {
 					// 记录显示所用的时间
 					index++;
 					onceResult = m_scanObject.scan();
-
+					if (m_storeInfo == null) {
+						Log.e("ShowAllRSSI#myGetReSultThread#run()", "m_storeInfo is null");
+					}
+					if (onceResult == null) {
+						Log.e("ShowAllRSSI#myGetReSultThread#run()", "onceResult is null");
+					}
 					m_storeInfo.addResultToList(onceResult);
 
 					// 每隔60次扫描则清空TextView的显示内容，防止因为TextView内容一直累积导致内存不足。
@@ -367,6 +376,8 @@ public class ShowAllRSSI extends Activity {
 					m_nowTime = Calendar.getInstance().getTimeInMillis();
 
 				}
+				m_preStoreInfo = m_storeInfo;
+				m_storeInfo = null;
 				Message message = new Message();
 				message.what = 2;
 				handler.sendMessage(message);
@@ -402,6 +413,8 @@ public class ShowAllRSSI extends Activity {
 				m_nowTime = Calendar.getInstance().getTimeInMillis();
 			}
 			if (remainder > 0) {
+				m_preStoreInfo = m_storeInfo;
+				m_storeInfo = null;
 				Message message = new Message();
 				message.what = 2;
 				handler.sendMessage(message);
@@ -447,38 +460,6 @@ public class ShowAllRSSI extends Activity {
 			// }
 		}
 
-		Handler handler = new Handler() {
-			public void handleMessage(Message msg) {
-				switch (msg.what) {
-				case 1:
-					 if (ui_tv.length()>=2000) {
-					 ui_tv.setText("");
-					 }
-					// ShowOneScanResult(onceResult);
-					// ShowRSSI.scroll2Bottom(ui_scrollView, ui_tv);
-					break;
-				case 2:
-					 selectSave();
-					
-					 ui_position.setFocusable(true);
-					 ui_position.setFocusableInTouchMode(true);
-					 ui_position.requestFocus();
-					
-					 ui_time.setFocusable(true);
-					 ui_time.setFocusableInTouchMode(true);
-					 ui_time.requestFocus();
-					
-					 ui_frequency.setFocusable(true);
-					 ui_frequency.setFocusableInTouchMode(true);
-					 ui_frequency.requestFocus();
-					
-					 ui_start.setVisibility(View.INVISIBLE);
-
-					break;
-				}
-			}
-		};
-
 		void ShowOneScanResult(List<ScanResult> result) {
 			Iterator<ScanResult> iscan = result.iterator();
 			while (iscan.hasNext()) {
@@ -490,79 +471,118 @@ public class ShowAllRSSI extends Activity {
 			ui_tv.append("\r\n");
 			ui_tv.append("\r\n");
 		}
+	}
 
-		void selectSave() {
-			try {
-				if (m_preStoreInfo == null) {
-					m_preStoreInfo = m_storeInfo;
-					m_storeInfo = null;
-				}
-				
-				String spath = m_preStoreInfo.writeJSON();
-				// 向系统广播文件变更。
-				if (spath != "") {
-					Uri path = Uri.parse("file://" + spath);
-					sendBroadcast(new Intent(
-							Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, path));
-				}
-				m_preStoreInfo = null;
-				// m_storeInfo.writeXml();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			// AlertDialog.Builder builder = new Builder(ShowAllRSSI.this);
-			// builder.setTitle("提示");
-			// builder.setMessage("确定保存吗？");
-			//
-			// builder.setPositiveButton("确定",
-			// new DialogInterface.OnClickListener() {
-			//
-			// @Override
-			// public void onClick(DialogInterface arg0, int arg1) {
-			// // TODO Auto-generated method stub
-			// try {
-			// String spath = m_storeInfo.writeJSON();
-			// // 向系统广播文件变更。
-			// if (spath != "") {
-			// Uri path = Uri.parse("file://" + spath);
-			// sendBroadcast(new Intent(
-			// Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
-			// path));
-			// }
-			// // m_storeInfo.writeXml();
-			// } catch (IOException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
-			// }
-			//
-			// });
-			//
-			// builder.setNegativeButton("取消",
-			// new DialogInterface.OnClickListener() {
-			//
-			// @Override
-			// public void onClick(DialogInterface arg0, int arg1) {
-			// // TODO Auto-generated method stub
-			// /**
-			// * 向Web Service服务器端发送JSON数据。
-			// */
-			// try {
-			// Thread mySendJSONThread = new Thread(
-			// new mySendJSONThread());
-			// mySendJSONThread.start();
-			// } catch (Exception e) {
-			// // TODO: handle exception
-			// Toast.makeText(getApplicationContext(),
-			// "发送数据失败", Toast.LENGTH_SHORT).show();
-			// e.printStackTrace();
-			// }
-			//
-			// }
-			//
-			// });
-			// builder.show();
+	static class MyHandler_All extends Handler {
+		private final WeakReference<ShowAllRSSI> mActivity;
+	
+		public MyHandler_All(ShowAllRSSI activity) {
+			mActivity = new WeakReference<ShowAllRSSI>(activity);
 		}
+	
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case 1:
+				// if (ui_tv.length()>=2000) {
+				// ui_tv.setText("");
+				// }
+				// ShowOneScanResult(onceResult);
+				// ShowRSSI.scroll2Bottom(ui_scrollView, ui_tv);
+				break;
+			case 2:
+				if (mActivity.get() != null) {
+					mActivity.get().selectSave();
+					mActivity.get().ui_position.setFocusable(true);
+					mActivity.get().ui_position.setFocusableInTouchMode(true);
+					mActivity.get().ui_position.requestFocus();
+	
+					mActivity.get().ui_time.setFocusable(true);
+					mActivity.get().ui_time.setFocusableInTouchMode(true);
+					mActivity.get().ui_time.requestFocus();
+	
+					mActivity.get().ui_frequency.setFocusable(true);
+					mActivity.get().ui_frequency.setFocusableInTouchMode(true);
+					mActivity.get().ui_frequency.requestFocus();
+	
+					mActivity.get().ui_start.setVisibility(View.INVISIBLE);
+				}
+				break;
+			}
+		}
+	}
+
+	public void selectSave() {
+		try {
+			StoreInfo tempInfo = null;
+			if (m_preStoreInfo != null) {
+				tempInfo = m_preStoreInfo;
+				m_preStoreInfo = null;
+			}
+	
+			String spath = tempInfo.writeJSON();
+			// 向系统广播文件变更。
+			if (spath != "") {
+				Uri path = Uri.parse("file://" + spath);
+				sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+						path));
+			}
+			tempInfo = null;
+			// m_storeInfo.writeXml();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			Log.e("ShowAllRSSI#selectSave()", e.getMessage(), e);
+		}
+		// AlertDialog.Builder builder = new Builder(ShowAllRSSI.this);
+		// builder.setTitle("提示");
+		// builder.setMessage("确定保存吗？");
+		//
+		// builder.setPositiveButton("确定",
+		// new DialogInterface.OnClickListener() {
+		//
+		// @Override
+		// public void onClick(DialogInterface arg0, int arg1) {
+		// // TODO Auto-generated method stub
+		// try {
+		// String spath = m_storeInfo.writeJSON();
+		// // 向系统广播文件变更。
+		// if (spath != "") {
+		// Uri path = Uri.parse("file://" + spath);
+		// sendBroadcast(new Intent(
+		// Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+		// path));
+		// }
+		// // m_storeInfo.writeXml();
+		// } catch (IOException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		// }
+		//
+		// });
+		//
+		// builder.setNegativeButton("取消",
+		// new DialogInterface.OnClickListener() {
+		//
+		// @Override
+		// public void onClick(DialogInterface arg0, int arg1) {
+		// // TODO Auto-generated method stub
+		// /**
+		// * 向Web Service服务器端发送JSON数据。
+		// */
+		// try {
+		// Thread mySendJSONThread = new Thread(
+		// new mySendJSONThread());
+		// mySendJSONThread.start();
+		// } catch (Exception e) {
+		// // TODO: handle exception
+		// Toast.makeText(getApplicationContext(),
+		// "发送数据失败", Toast.LENGTH_SHORT).show();
+		// e.printStackTrace();
+		// }
+		//
+		// }
+		//
+		// });
+		// builder.show();
 	}
 }
