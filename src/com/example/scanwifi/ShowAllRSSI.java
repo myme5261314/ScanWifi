@@ -89,9 +89,6 @@ public class ShowAllRSSI extends Activity {
 
 		// ===================开始设置记录文职的编辑框不可见================
 		ui_start.setVisibility(View.INVISIBLE);
-		// ui_frequency.setText("");
-		// ui_time.setText("");
-		// ui_position.setText("");
 
 		ui_time.setFocusable(false);
 		ui_position.setFocusable(false);
@@ -155,12 +152,6 @@ public class ShowAllRSSI extends Activity {
 					ui_position.setText(m_position);
 					ui_position.setFocusable(false);
 
-					// InputMethodManager imm = (InputMethodManager)
-					// getSystemService(Context.INPUT_METHOD_SERVICE);
-					// imm.hideSoftInputFromWindow(ui_position.getWindowToken(),
-					// 0);
-					//
-					// ui_start.setVisibility(View.VISIBLE);
 					ui_scenery.setFocusable(true);
 					ui_scenery.setFocusableInTouchMode(true);
 					ui_scenery.requestFocus();
@@ -224,10 +215,6 @@ public class ShowAllRSSI extends Activity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				// catch (IOException e) {
-				// // TODO Auto-generated catch block
-				// e.printStackTrace();
-				// }
 
 				Log.v(tag, "start");
 				m_startTime = Calendar.getInstance().getTimeInMillis();
@@ -296,14 +283,6 @@ public class ShowAllRSSI extends Activity {
 							Toast.LENGTH_SHORT).show();
 
 				}
-
-				// 得到应答的字符串，这也是一个 JSON 格式保存的数据
-				// String retSrc =
-				// EntityUtils.toString(httpResponse.getEntity());
-				// 生成 JSON 对象
-
-				// JSONObject result = new JSONObject(retSrc);
-				// String token = result.get("hello").toString();
 				Log.v("success", "json data recieved");
 
 			} catch (JSONException e) {
@@ -420,44 +399,6 @@ public class ShowAllRSSI extends Activity {
 				handler.sendMessage(message);
 				// selectSave();
 			}
-
-			// int index = 0;
-			// while (m_nowTime - m_startTime < m_time
-			// || index < m_time / (m_frequency * 1000)) {
-			// while (index < m_time * m_frequency / 1000) {
-			// index++;
-			// onceResult = m_scanObject.scan();
-			//
-			// long start = Calendar.getInstance().getTimeInMillis();//
-			// // 记录显示所用的时间
-			// m_storeInfo.addResultToList(onceResult);
-			//
-			// // if (index % 60 == 0){
-			// // ui_tv.setText("");
-			// // }
-			// Message message = new Message();
-			// message.what = 1;
-			// handler.sendMessage(message);
-			// long end = Calendar.getInstance().getTimeInMillis();
-			//
-			// try {
-			// long sleeptime = (1000 / m_frequency) - (end - start);
-			// if (sleeptime > 0) {
-			// Thread.sleep(sleeptime);
-			// }
-			//
-			// } catch (InterruptedException e) {
-			// Thread.currentThread().interrupt();
-			// }
-			// Log.v(tag, String.valueOf(index));
-			// m_nowTime = Calendar.getInstance().getTimeInMillis();
-			// }
-			//
-			// // 这段时间已经运行完，弹出是否要保存xml文件的对话框
-			// Message message = new Message();
-			// message.what = 2;
-			// handler.sendMessage(message);
-			// }
 		}
 
 		void ShowOneScanResult(List<ScanResult> result) {
@@ -532,57 +473,5 @@ public class ShowAllRSSI extends Activity {
 			// TODO Auto-generated catch block
 			Log.e("ShowAllRSSI#selectSave()", e.getMessage(), e);
 		}
-		// AlertDialog.Builder builder = new Builder(ShowAllRSSI.this);
-		// builder.setTitle("提示");
-		// builder.setMessage("确定保存吗？");
-		//
-		// builder.setPositiveButton("确定",
-		// new DialogInterface.OnClickListener() {
-		//
-		// @Override
-		// public void onClick(DialogInterface arg0, int arg1) {
-		// // TODO Auto-generated method stub
-		// try {
-		// String spath = m_storeInfo.writeJSON();
-		// // 向系统广播文件变更。
-		// if (spath != "") {
-		// Uri path = Uri.parse("file://" + spath);
-		// sendBroadcast(new Intent(
-		// Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
-		// path));
-		// }
-		// // m_storeInfo.writeXml();
-		// } catch (IOException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// }
-		//
-		// });
-		//
-		// builder.setNegativeButton("取消",
-		// new DialogInterface.OnClickListener() {
-		//
-		// @Override
-		// public void onClick(DialogInterface arg0, int arg1) {
-		// // TODO Auto-generated method stub
-		// /**
-		// * 向Web Service服务器端发送JSON数据。
-		// */
-		// try {
-		// Thread mySendJSONThread = new Thread(
-		// new mySendJSONThread());
-		// mySendJSONThread.start();
-		// } catch (Exception e) {
-		// // TODO: handle exception
-		// Toast.makeText(getApplicationContext(),
-		// "发送数据失败", Toast.LENGTH_SHORT).show();
-		// e.printStackTrace();
-		// }
-		//
-		// }
-		//
-		// });
-		// builder.show();
 	}
 }

@@ -25,11 +25,6 @@ import android.os.Environment;
 import android.util.JsonWriter;
 import android.util.Log;
 import android.util.Xml;
-//import java.io.PrintStream;
-
-;
-
-//import java.io.FileNotFoundException;
 
 public class StoreInfo {
 	private List<List<ScanResult>> m_allResult;
@@ -42,9 +37,6 @@ public class StoreInfo {
 
 	private String m_scenery;
 
-	// File类的对象不应作为类成员变量来使用。
-	/* private File m_xmlfile; */
-	/* private OutputStream m_os; */
 	private XmlSerializer m_serializer = Xml.newSerializer();
 
 	private Map<String, String> m_bssid_ssid;// 存放mac地址和AP名称
@@ -55,7 +47,6 @@ public class StoreInfo {
 	public StoreInfo(int fren, long time, Calendar start, String position,
 			String scenery) throws IllegalArgumentException,
 			IllegalStateException {
-//		Log.v(tag, "xml");
 		m_allResult = new ArrayList<List<ScanResult>>();
 		m_frequency = fren;
 		m_time = time;
@@ -65,37 +56,15 @@ public class StoreInfo {
 		m_scenery = scenery;
 
 		m_index = 0;
-
-		/* m_xmlfile = new File("/sdcard/positon.xml"); */
-		// boolean isExists = m_xmlfile.exists();
-		// if( !isExists ) {
-		// m_xmlfile.createNewFile();
-		// }
-		// Log.v(tag, "xml");
-
-		// m_os = new FileOutputStream(m_xmlfile,true);
-
-		// m_serializer.setOutput(m_os, "UTF-8");
-		// m_serializer.startDocument("UTF-8", true);
-
-//		Log.v(tag, "xml");
 		m_bssid_ssid = new HashMap<String, String>();
 		m_bssid_rssi = new HashMap<String, List<String>>();
 
 	}
 
 	public void addResultToList(List<ScanResult> l) {
-		// 每5分钟保存一下数据，以免采集数据持续时间过长，导致内存不足等问题。
-		// int breaktime = 1 * 60;
-		// if (getListLen() == breaktime) {
-		// getApAllRSSI();
-		// }
 		m_index++;
-		// long stime = System.currentTimeMillis();
 		m_allResult.add(l);
 		getApAllRSSI();
-		// long etime = System.currentTimeMillis();
-		// Log.v(tag + " run time", String.valueOf(etime - stime));
 	}
 
 	public List<ScanResult> getListWithIndex(int i) {
@@ -114,50 +83,28 @@ public class StoreInfo {
 	public JSONObject getJSONData() throws JSONException {
 		JSONObject json = new JSONObject();
 		try {
-			// getApAllRSSI();
-			// json.put("starttime", WriteFile.tranTimeToString(m_startTime));
-			// json.put("duringtime", m_time);
-			// json.put("frequency", m_frequency);
-			// json.put("position", m_position);
 			json.put("startTime", WriteFile.tranTimeToString(m_startTime));
 			json.put("duringTime", m_time);
 			json.put("freq", m_frequency);
 			json.put("location", m_position);
 			json.put("scenery", m_scenery);
-			// String rssiData = "";
 			Iterator<String> iter = m_bssid_ssid.keySet().iterator();
 			JSONArray rssiJson = new JSONArray();
 			while (iter.hasNext()) {
 				String sBSSID = (String) iter.next();
 				String sSSID = m_bssid_ssid.get(sBSSID);
-				// rssiData += sSSID + "," + sBSSID + ",";
 				JSONObject jsontemp = new JSONObject();
 				jsontemp.put("apName", sSSID);
 				jsontemp.put("mac", sBSSID);
 				JSONArray jsonarraytemp = new JSONArray();
-				// rssiData += ",";
 				List<String> thisApRssi = m_bssid_rssi.get(sBSSID);
 				Iterator<String> iRssi = thisApRssi.iterator();
 				while (iRssi.hasNext()) {
-					// rssiData += (String) iRssi.next() + "|";
 					jsonarraytemp.put(Integer.valueOf(iRssi.next()));
 				}
 				jsontemp.put("RSSI", jsonarraytemp);
-				// rssiData = rssiData.substring(0, rssiData.length() - 1);
-				// rssiData += ";";
 				rssiJson.put(jsontemp);
 			}
-			// for (int i = 0; i < rssiJson.length(); i++) {
-			// JSONArray array = rssiJson.getJSONObject(i)
-			// .getJSONArray("RSSI");
-			// long size = m_time / (m_frequency * 1000);
-			// if (array.length() < size) {
-			// for (int j = 0; j < size - array.length(); j++) {
-			// array.put(0, 0);
-			// }
-			// }
-			// }
-			// rssiData = rssiData.substring(0, rssiData.length() - 1);
 			json.put("RSSILists", rssiJson);
 
 		} catch (JSONException e) {
@@ -170,10 +117,6 @@ public class StoreInfo {
 	}
 
 	public void writeXml() throws IOException {
-
-		// public static void savePositions (OutputStream os,String position)
-		// throws Exception{
-		// Log.v(tag,m_startTime);
 		File v_xmlfile = new File(Environment.getExternalStorageDirectory()
 				.getPath()
 				+ "SignalStrength/"
@@ -339,7 +282,6 @@ public class StoreInfo {
 	public String writeJSON() throws IOException {
 		// TODO Auto-generated method stub
 		String outpath = "";
-		// PrintStream v_os = null;
 		try {
 			JSONObject jsonObject = getJSONData();
 			if (jsonObject.getJSONArray("RSSILists").length() == 0) {
@@ -370,11 +312,7 @@ public class StoreInfo {
 				v_jsonFile.delete();
 			}
 			Log.v(tag, "json file start writing.");
-			// FileOutputStream outstream = new FileOutputStream(v_jsonFile);
 			FileWriter ft = new FileWriter(v_jsonFile);
-			// v_os = new PrintStream(outstream);
-			// v_os.print(jsonObject.toString(4));
-			// v_os.print(jsonObject.toString());
 			JsonWriter js = new JsonWriter(ft);
 			js.beginObject();
 			js.name("startTime").value(jsonObject.getString("startTime"));
@@ -419,12 +357,10 @@ public class StoreInfo {
 			// TODO Auto-generated catch block
 			Log.e("JSONException", e.getMessage(), e);
 			outpath = "";
-			// return "";
 		} catch (IOException e) {
 			// TODO: handle exception
 			Log.e("IOException", e.getMessage(), e);
 			outpath = "";
-			// return "";
 		} catch (NullPointerException e) {
 			// TODO: handle exception
 			Log.e("NullPointerException", e.getMessage(), e);
@@ -434,14 +370,6 @@ public class StoreInfo {
 			Log.e("Exception", e.getMessage(), e);
 			outpath = "";
 		}
-//		finally {
-//			// if (v_os != null) {
-//			// v_os.close();
-//			// }
-//			// return "";
-//			outpath = "";
-//		}
 		return outpath;
-		// return "";
 	}
 }
