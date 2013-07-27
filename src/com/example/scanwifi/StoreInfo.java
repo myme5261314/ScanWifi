@@ -410,27 +410,37 @@ public class StoreInfo {
 			outpath = v_jsonFile.getAbsolutePath();
 
 			Log.v("writeJsonFileDone", outpath);
+			
+			ft.close();
 
 			js.close();
 
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			Log.e("JSONException", e.getMessage(), e);
+			outpath = "";
 			// return "";
 		} catch (IOException e) {
 			// TODO: handle exception
 			Log.e("IOException", e.getMessage(), e);
+			outpath = "";
 			// return "";
 		} catch (NullPointerException e) {
 			// TODO: handle exception
 			Log.e("NullPointerException", e.getMessage(), e);
-		} finally {
-			// if (v_os != null) {
-			// v_os.close();
-			// }
-			// return "";
+			outpath = "";
+		} catch (Exception e) {
+			// TODO: handle exception
+			Log.e("Exception", e.getMessage(), e);
 			outpath = "";
 		}
+//		finally {
+//			// if (v_os != null) {
+//			// v_os.close();
+//			// }
+//			// return "";
+//			outpath = "";
+//		}
 		return outpath;
 		// return "";
 	}
