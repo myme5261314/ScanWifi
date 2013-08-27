@@ -362,7 +362,7 @@ public class ShowAllRSSI extends Activity {
 				handler.sendMessage(message);
 				// selectSave();
 			}
-			m_storeInfo = new StoreInfo(m_frequency, singletimes / m_frequency,
+			m_storeInfo = new StoreInfo(m_frequency, remainder / m_frequency,
 					Calendar.getInstance(), m_position, m_scenery);
 			int index = 0;
 			for (int i = 0; i < remainder; i++) {
