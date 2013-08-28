@@ -3,3 +3,6 @@ tags
 types_java.taghl
 *.swo
 /bin/
+!/bin/AndroidManifest.xml
+!/bin/*.png
+!/bin/R.txt
