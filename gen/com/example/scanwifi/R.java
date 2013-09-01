@@ -14,9 +14,9 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int BSSID=0x7f070017;
-        public static final int RSI=0x7f070018;
-        public static final int SSID=0x7f070016;
+        public static final int BSSID=0x7f070018;
+        public static final int RSI=0x7f070019;
+        public static final int SSID=0x7f070017;
         public static final int button1=0x7f070002;
         public static final int button2=0x7f070004;
         public static final int button3=0x7f070003;
@@ -25,10 +25,11 @@ public final class R {
         public static final int imageView1=0x7f070008;
         public static final int linearLayout1=0x7f070007;
         public static final int listView1=0x7f070005;
-        public static final int menu_settings=0x7f070019;
+        public static final int menu_settings=0x7f07001a;
         public static final int position=0x7f070011;
+        public static final int progress=0x7f070014;
         public static final int relativeLayout1=0x7f070006;
-        public static final int rssText=0x7f070014;
+        public static final int rssText=0x7f070015;
         public static final int scenery=0x7f07000d;
         public static final int scrollView1=0x7f07000b;
         public static final int seekBar1=0x7f07000a;
@@ -37,7 +38,7 @@ public final class R {
         public static final int textView1=0x7f070009;
         public static final int textView2=0x7f07000c;
         public static final int textView3=0x7f070010;
-        public static final int textView4=0x7f070015;
+        public static final int textView4=0x7f070016;
         public static final int textview=0x7f070001;
         public static final int time=0x7f07000f;
     }
@@ -92,5 +93,6 @@ public final class R {
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f050001;
+        public static final int TextProgressBarStyle=0x7f050002;
     }
 }

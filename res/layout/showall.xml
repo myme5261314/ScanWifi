@@ -84,6 +84,18 @@
         android:layout_alignBottom="@+id/gotomain"
         android:layout_toRightOf="@+id/frequency"
         android:text="start" />
+    
+    <com.example.scanwifi.TextProgressBar 
+        android:id="@+id/progress"
+        style="@style/TextProgressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/gotomain"
+        android:layout_alignParentBottom="@+id/gotomain"
+        
+        />
 
     <ScrollView
         android:id="@+id/scrollView1"
@@ -92,7 +104,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/gotomain"
+        android:layout_below="@+id/progress"
         android:layout_marginTop="21dp" >
 
         <TextView
