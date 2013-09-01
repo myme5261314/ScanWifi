@@ -13,20 +13,24 @@ import android.widget.ProgressBar;
 public class TextProgressBar extends ProgressBar {
     private String text;
     private Paint mPaint;
+    private Rect m_rect;
 
     public TextProgressBar(Context context) {
         super(context);
         initText();
+        m_rect = new Rect();
     }
 
     public TextProgressBar(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         initText();
+        m_rect = new Rect();
     }
 
     public TextProgressBar(Context context, AttributeSet attrs) {
         super(context, attrs);
         initText();
+        m_rect = new Rect();
     }
 
     @Override
@@ -39,10 +43,9 @@ public class TextProgressBar extends ProgressBar {
     @Override
     protected synchronized void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Rect rect = new Rect();
-        this.mPaint.getTextBounds(this.text, 0, this.text.length(), rect);
-        int x = (getWidth() / 2) - rect.centerX();
-        int y = (getHeight() / 2) - rect.centerY();
+        this.mPaint.getTextBounds(this.text, 0, this.text.length(), m_rect);
+        int x = (getWidth() / 2) - m_rect.centerX();
+        int y = (getHeight() / 2) - m_rect.centerY();
         canvas.drawText(this.text, x, y, this.mPaint);
     }
 
