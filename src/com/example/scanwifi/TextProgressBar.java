@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.widget.ProgressBar;
+
 /**
  * 带文本提示的进度条
  */
@@ -59,7 +60,8 @@ public class TextProgressBar extends ProgressBar {
 
     // 设置文字内容
     private void setText(int progress) {
-//        int i = (int) ((progress * 1.0f / this.getMax()) * 100);
-        this.text = String.valueOf(progress) + "/" + String.valueOf(this.getMax());
+        // int i = (int) ((progress * 1.0f / this.getMax()) * 100);
+        this.text = String.valueOf(progress) + "/"
+                + String.valueOf(this.getMax());
     }
 }
