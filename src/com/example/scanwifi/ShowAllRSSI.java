@@ -315,7 +315,7 @@ public class ShowAllRSSI extends Activity {
         public void run() {
             m_nowTime = Calendar.getInstance().getTimeInMillis();
             // 每采集多少次就写一下文件，防止因为内存不足导致程序崩溃。
-            int singletimes = 3600;
+            int singletimes = 600;
             // 总共要采集的次数。
             long times = m_time * m_frequency / 1000;
             m_progress_total = times;

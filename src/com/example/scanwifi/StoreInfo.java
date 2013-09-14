@@ -2,9 +2,9 @@ package com.example.scanwifi;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -288,9 +288,9 @@ public class StoreInfo {
                 Log.e("StoreInfo#writeJSON()",
                         "jsonObject entity RSSILists empty!");
             }
-            // 这里只能用下划线作为分隔，如果用空格，会在构成文件名时使文件名有空格，会出各种问题。而且文件名中不能有冒号。
+            // 这里只能用横线作为分隔，如果用空格，会在构成文件名时使文件名有空格，会出各种问题。而且文件名中不能有冒号。
             SimpleDateFormat sDateFormat = new SimpleDateFormat(
-                    "yyyy-MM-dd_HHmmss", Locale.US);
+                    "yyyy-MM-dd-HHmmss", Locale.US);
             String date = sDateFormat.format(new java.util.Date());
             File floder = new File(Environment.getExternalStorageDirectory()
                     .getPath() + "/SignalStrength/");
@@ -313,8 +313,9 @@ public class StoreInfo {
                 v_jsonFile.delete();
             }
             Log.v(tag, "json file start writing.");
-            FileWriter ft = new FileWriter(v_jsonFile);
-            JsonWriter js = new JsonWriter(ft);
+//            FileWriter ft = new FileWriter(v_jsonFile);
+            OutputStreamWriter ot = new OutputStreamWriter(new FileOutputStream(v_jsonFile), "utf-8");
+            JsonWriter js = new JsonWriter(ot);
             js.beginObject();
             js.name("startTime").value(jsonObject.getString("startTime"));
             js.name("duringTime").value(jsonObject.getString("duringTime"));
@@ -350,7 +351,7 @@ public class StoreInfo {
 
             Log.v("writeJsonFileDone", outpath);
 
-            ft.close();
+            ot.close();
 
             js.close();
 
