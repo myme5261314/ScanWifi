@@ -190,10 +190,6 @@ public class ShowAllRSSI extends Activity {
                     ui_writefileInterval.setFocusableInTouchMode(true);
                     ui_writefileInterval.requestFocus();
 
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(ui_position.getWindowToken(), 0);
-
-                    ui_start.setVisibility(View.VISIBLE);
                 }
                 return false;
             }
@@ -213,9 +209,11 @@ public class ShowAllRSSI extends Activity {
                     ui_writefileInterval.setFocusable(false);
 
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(ui_position.getWindowToken(), 0);
+                    imm.hideSoftInputFromWindow(ui_writefileInterval.getWindowToken(), 0);
 
                     ui_start.setVisibility(View.VISIBLE);
+                    
+                    ui_progressBar.setMax((int)m_progress_total);
                 }
                 return false;
             }
