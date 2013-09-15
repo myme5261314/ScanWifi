@@ -15,6 +15,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.R.integer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -46,6 +47,7 @@ public class ShowAllRSSI extends Activity {
     EditText ui_frequency;
     EditText ui_time;
     EditText ui_position;
+    EditText ui_writefileInterval;
 
     EditText ui_scenery;
 
@@ -60,6 +62,7 @@ public class ShowAllRSSI extends Activity {
     String m_position = new String();
 
     String m_scenery = new String();
+    int m_writefileInterval = Integer.valueOf(R.string.WriteFile_DataTimes);
 
     long m_nowTime;
 
@@ -92,6 +95,7 @@ public class ShowAllRSSI extends Activity {
 
         ui_scenery = (EditText) findViewById(R.id.scenery);
 
+        ui_writefileInterval = (EditText) findViewById(R.id.WriteFileInterval);
         ui_progressBar = (TextProgressBar) findViewById(R.id.progress);
 
         // ===================开始设置记录文职的编辑框不可见================
@@ -99,6 +103,8 @@ public class ShowAllRSSI extends Activity {
 
         ui_time.setFocusable(false);
         ui_position.setFocusable(false);
+        ui_scenery.setFocusable(false);
+        ui_writefileInterval.setFocusable(false);
 
         // ===================记录输入的频率和持续时间======================
         ui_frequency.setOnEditorActionListener(new OnEditorActionListener() {
@@ -179,6 +185,32 @@ public class ShowAllRSSI extends Activity {
                     m_scenery = ui_scenery.getText().toString();
                     ui_scenery.setText(m_scenery);
                     ui_scenery.setFocusable(false);
+                    
+                    ui_writefileInterval.setFocusable(true);
+                    ui_writefileInterval.setFocusableInTouchMode(true);
+                    ui_writefileInterval.requestFocus();
+
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(ui_position.getWindowToken(), 0);
+
+                    ui_start.setVisibility(View.VISIBLE);
+                }
+                return false;
+            }
+        });
+        
+        ui_writefileInterval.setOnEditorActionListener(new OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId,
+                    KeyEvent event) {
+                // TODO Auto-generated method stub
+                if (actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
+                    ui_writefileInterval.setText(ui_writefileInterval.getText().toString()
+                            .replaceAll("\n", ""));
+                    m_writefileInterval = Integer.valueOf(ui_writefileInterval.getText().toString());
+                    ui_writefileInterval.setText(String.valueOf(m_writefileInterval));
+                    ui_writefileInterval.setFocusable(false);
 
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(ui_position.getWindowToken(), 0);
@@ -315,7 +347,7 @@ public class ShowAllRSSI extends Activity {
         public void run() {
             m_nowTime = Calendar.getInstance().getTimeInMillis();
             // 每采集多少次就写一下文件，防止因为内存不足导致程序崩溃。
-            int singletimes = 600;
+            int singletimes = m_writefileInterval;
             // 总共要采集的次数。
             long times = m_time * m_frequency / 1000;
             m_progress_total = times;
@@ -412,6 +444,9 @@ public class ShowAllRSSI extends Activity {
                 handler.sendMessage(message);
                 // selectSave();
             }
+            Message message = new Message();
+            message.what = 3;
+            handler.sendMessage(message);
         }
 
         void ShowOneScanResult(List<ScanResult> result) {
@@ -452,6 +487,11 @@ public class ShowAllRSSI extends Activity {
             case 2:
                 if (mActivity.get() != null) {
                     mActivity.get().selectSave();
+                }
+                break;
+            case 3:
+                if (mActivity.get() != null) {
+
                     mActivity.get().ui_position.setFocusable(true);
                     mActivity.get().ui_position.setFocusableInTouchMode(true);
                     mActivity.get().ui_position.requestFocus();
@@ -463,6 +503,14 @@ public class ShowAllRSSI extends Activity {
                     mActivity.get().ui_frequency.setFocusable(true);
                     mActivity.get().ui_frequency.setFocusableInTouchMode(true);
                     mActivity.get().ui_frequency.requestFocus();
+                    
+                    mActivity.get().ui_scenery.setFocusable(true);
+                    mActivity.get().ui_scenery.setFocusableInTouchMode(true);
+                    mActivity.get().ui_scenery.requestFocus();
+                    
+                    mActivity.get().ui_writefileInterval.setFocusable(true);
+                    mActivity.get().ui_writefileInterval.setFocusableInTouchMode(true);
+                    mActivity.get().ui_writefileInterval.requestFocus();
 
                     mActivity.get().ui_start.setVisibility(View.INVISIBLE);
                 }

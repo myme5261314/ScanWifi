@@ -9,19 +9,18 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="20dip"
         android:text="频率" />
 
     <EditText
         android:id="@+id/frequency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView1"
         android:layout_alignBottom="@+id/textView1"
-        android:layout_marginLeft="17dp"
+        android:layout_marginLeft="10dip"
         android:layout_toRightOf="@+id/textView1"
         android:ems="4"
-        android:text="@+string/FrequencyDefault" >
+        android:text="@string/FrequencyDefault" >
 
         <requestFocus />
     </EditText>
@@ -32,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/frequency"
         android:layout_alignBottom="@+id/frequency"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="20dip"
         android:layout_toRightOf="@+id/frequency"
         android:text="持续时间" />
 
@@ -40,12 +39,12 @@
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/frequency"
         android:layout_alignBottom="@+id/frequency"
-        android:layout_alignTop="@+id/frequency"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="10dip"
         android:layout_toRightOf="@+id/textView2"
         android:ems="4"
-        android:text="@+string/ScanTimeDefault" />
+        android:text="@string/ScanTimeDefault" />
 
     <TextView
         android:id="@+id/textView3"
@@ -53,27 +52,62 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/frequency"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="20dip"
         android:text="位置" />
 
     <EditText
         android:id="@+id/position"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView3"
         android:layout_alignBottom="@+id/textView3"
         android:layout_alignLeft="@+id/frequency"
         android:layout_toLeftOf="@+id/textView2"
-        android:ems="10"
-        android:text="@+string/XYDefault" />
+        android:ems = "4"
+        android:text="@string/XYDefault" />
 
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/textView3"
+        android:layout_alignLeft="@+id/textView2"
+        android:text="场景   " />
+
+    <EditText
+        android:id="@+id/scenery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/position"
+        android:layout_alignLeft="@+id/time"
+        android:layout_toRightOf="@id/textView4"
+        android:ems="4"
+        android:text="@string/SceneryDefault" />
+    
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/position"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="20dip"
+        android:text="写文件间隔   " />
+
+    <EditText
+        android:id="@+id/WriteFileInterval"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView5"
+        android:layout_toRightOf="@id/textView5"
+        android:ems="4"
+        android:text="@string/WriteFile_DataTimes" />
+    
     <Button
         android:id="@+id/gotomain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/position"
-        android:layout_marginTop="25dp"
+        android:layout_below="@id/WriteFileInterval"
+        android:layout_marginTop="25dip"
         android:text="goto" />
 
     <Button
@@ -82,7 +116,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/gotomain"
         android:layout_alignBottom="@+id/gotomain"
-        android:layout_toRightOf="@+id/frequency"
+        android:layout_toRightOf="@id/gotomain"
+        android:layout_marginLeft="10dip"
         android:text="start" />
     
     <com.example.scanwifi.TextProgressBar 
@@ -105,32 +140,16 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/progress"
-        android:layout_marginTop="21dp" >
+        android:layout_marginTop="21dip" >
 
         <TextView
             android:id="@+id/rssText"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="" />
         
     </ScrollView>
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/gotomain"
-        android:layout_alignLeft="@+id/textView2"
-        android:text="场景   " />
 
-    <EditText
-        android:id="@+id/scenery"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/position"
-        android:layout_alignBottom="@+id/position"
-        android:layout_alignLeft="@+id/time"
-        android:ems="4"
-        android:text="@+string/SceneryDefault" />
 
 </RelativeLayout>

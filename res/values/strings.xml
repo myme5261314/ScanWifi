@@ -12,5 +12,6 @@
     <string name="ScanTimeDefault">60</string>
     <string name="XYDefault">1,1</string>
     <string name="SceneryDefault">319</string>
+    <string name="WriteFile_DataTimes">3600</string>
 
 </resources>
