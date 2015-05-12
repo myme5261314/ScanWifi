@@ -213,7 +213,7 @@ public class ShowAllRSSI extends Activity {
 
                     ui_start.setVisibility(View.VISIBLE);
                     
-                    ui_progressBar.setMax((int)m_progress_total);
+                    ui_progressBar.setMax((int)(m_time * m_frequency / 1000));
                 }
                 return false;
             }
@@ -490,25 +490,26 @@ public class ShowAllRSSI extends Activity {
             case 3:
                 if (mActivity.get() != null) {
 
-                    mActivity.get().ui_position.setFocusable(true);
-                    mActivity.get().ui_position.setFocusableInTouchMode(true);
-                    mActivity.get().ui_position.requestFocus();
-
-                    mActivity.get().ui_time.setFocusable(true);
-                    mActivity.get().ui_time.setFocusableInTouchMode(true);
-                    mActivity.get().ui_time.requestFocus();
 
                     mActivity.get().ui_frequency.setFocusable(true);
                     mActivity.get().ui_frequency.setFocusableInTouchMode(true);
                     mActivity.get().ui_frequency.requestFocus();
                     
-                    mActivity.get().ui_scenery.setFocusable(true);
-                    mActivity.get().ui_scenery.setFocusableInTouchMode(true);
-                    mActivity.get().ui_scenery.requestFocus();
+                    mActivity.get().ui_time.setFocusable(false);
+                    mActivity.get().ui_time.setFocusableInTouchMode(false);
+//                    mActivity.get().ui_time.requestFocus();
                     
-                    mActivity.get().ui_writefileInterval.setFocusable(true);
-                    mActivity.get().ui_writefileInterval.setFocusableInTouchMode(true);
-                    mActivity.get().ui_writefileInterval.requestFocus();
+                    mActivity.get().ui_position.setFocusable(false);
+                    mActivity.get().ui_position.setFocusableInTouchMode(false);
+//                    mActivity.get().ui_position.requestFocus();
+                    
+                    mActivity.get().ui_scenery.setFocusable(false);
+                    mActivity.get().ui_scenery.setFocusableInTouchMode(false);
+//                    mActivity.get().ui_scenery.requestFocus();
+                    
+                    mActivity.get().ui_writefileInterval.setFocusable(false);
+                    mActivity.get().ui_writefileInterval.setFocusableInTouchMode(false);
+//                    mActivity.get().ui_writefileInterval.requestFocus();
 
                     mActivity.get().ui_start.setVisibility(View.INVISIBLE);
                 }
